@@ -24,7 +24,7 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
 
   // --- Stato persistito --------------------------------------------------
   function defaultFaceConfig() {
-    const cfg = { version: 1, faces: {} };
+    const cfg = { version: 1, faces: {}, daltonic: false };
     for (const f of FACES) cfg.faces[f] = { mode: 'color' };
     return cfg;
   }
@@ -41,6 +41,7 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
           cfg.faces[f] = Object.assign({ mode: 'color' }, parsed.faces[f]);
         }
       }
+      cfg.daltonic = !!parsed.daltonic;
       return cfg;
     } catch (_) {
       return defaultFaceConfig();
@@ -115,11 +116,39 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
     ctx.fillText(text, TEX_SIZE / 2, TEX_SIZE / 2 + 8);
   }
 
-  function buildTextureForSticker(faceName, row, col, size, faceCfg, faceColorHex) {
-    if (!faceCfg || faceCfg.mode === 'color') return null;
+  // Disegna un piccolo simbolo nell'angolo della sticker per distinguere
+  // le facce in modalita' daltonica.
+  function drawDaltonicBadge(ctx, faceName) {
+    ctx.save();
+    const r = 30;
+    const cx = TEX_SIZE - r - 12, cy = TEX_SIZE - r - 12;
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#111';
+    ctx.font = 'bold 36px system-ui,-apple-system,Segoe UI,Roboto,Arial';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    // simboli distinti per faccia
+    const symbols = { U: '•', D: '■', F: '▲', B: '▼', L: '◀', R: '▶' };
+    ctx.fillText(symbols[faceName] || faceName, cx, cy + 2);
+    ctx.restore();
+  }
+
+  function buildTextureForSticker(faceName, row, col, size, faceCfg, faceColorHex, daltonic) {
+    const isColor = !faceCfg || faceCfg.mode === 'color';
+    if (isColor && !daltonic) return null;
     const canvas = makeCanvas();
     const ctx = canvas.getContext('2d');
     fillBg(ctx, faceColorHex);
+
+    if (isColor && daltonic) {
+      drawDaltonicBadge(ctx, faceName);
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.center = new THREE.Vector2(0.5, 0.5);
+      tex.rotation = textureRotationFor(faceName);
+      tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter;
+      tex.needsUpdate = true;
+      return tex;
+    }
 
     switch (faceCfg.mode) {
       case 'number': {
@@ -174,6 +203,8 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
         return null;
     }
 
+    if (daltonic) drawDaltonicBadge(ctx, faceName);
+
     if (typeof THREE !== 'undefined' && THREE.CanvasTexture) {
       const tex = new THREE.CanvasTexture(canvas);
       tex.center = new THREE.Vector2(0.5, 0.5);
@@ -205,6 +236,8 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
       }
     }
 
+    const daltonic = !!state.daltonic;
+
     g.cube.edges.forEach(edge => {
       const fn = edge.name;
       const faceCfg = state.faces[fn] || { mode: 'color' };
@@ -213,8 +246,8 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
       // Sempre ripristina tinta material a quella di base
       edge.material.color.setHex(colorHex);
 
-      if (faceCfg.mode === 'color') {
-        // Rimuovi texture custom se presente
+      const isColor = faceCfg.mode === 'color';
+      if (isColor && !daltonic) {
         if (edge.material.map) {
           edge.material.map.dispose && edge.material.map.dispose();
           edge.material.map = null;
@@ -226,9 +259,8 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
       const parent = edge.parent;
       if (!parent) return;
       const { row, col } = stickerCell(parent, fn, size);
-      const tex = buildTextureForSticker(fn, row, col, size, faceCfg, colorHex);
+      const tex = buildTextureForSticker(fn, row, col, size, faceCfg, colorHex, daltonic);
       if (tex) {
-        // su texture custom usiamo bianco come tint (la texture porta gia' lo sfondo colorato)
         edge.material.color.setHex(0xffffff);
         if (edge.material.map) {
           edge.material.map.dispose && edge.material.map.dispose();
@@ -365,6 +397,20 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
     const card = el('div', { class: 'cz-card' });
     card.appendChild(el('h2', { id: 'czTitle', text: 'Personalizza le facce' }));
     card.appendChild(el('p', { text: 'Scegli un tipo per ciascuna faccia. Le modifiche restano memorizzate in questo dispositivo.' }));
+
+    // Toggle modalita' daltonica
+    const dalRow = el('label', { class: 'cz-row' });
+    dalRow.style.cssText = 'gap:8px;cursor:pointer;';
+    const dalCheck = el('input', { type: 'checkbox', id: 'czDaltonic' });
+    if (state.daltonic) dalCheck.setAttribute('checked', 'checked');
+    dalCheck.addEventListener('change', () => {
+      state.daltonic = dalCheck.checked;
+      saveConfig(state);
+      applyToCube();
+    });
+    dalRow.appendChild(dalCheck);
+    dalRow.appendChild(document.createTextNode(' Modalita’ daltonica (simboli per faccia)'));
+    card.appendChild(dalRow);
 
     const facesRow = el('div', { id: 'czFaces', class: 'cz-faces' });
     card.appendChild(facesRow);
@@ -648,7 +694,7 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
   // Versione "leggera" della config: omette _imgEl (Image runtime) e — per
   // condivisione via URL — anche dataURL dell'immagine (troppo pesante).
   function configForExport(includeImages) {
-    const out = { version: 1, faces: {} };
+    const out = { version: 1, daltonic: !!state.daltonic, faces: {} };
     for (const f of FACES) {
       const src = state.faces[f] || { mode: 'color' };
       const dst = { mode: src.mode };
@@ -789,6 +835,7 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
       if (!cfg || !cfg.faces) return;
       state = defaultFaceConfig();
       for (const f of FACES) if (cfg.faces[f]) state.faces[f] = Object.assign({ mode: 'color' }, cfg.faces[f]);
+      state.daltonic = !!cfg.daltonic;
       saveConfig(state);
       applyToCube();
       renderPanel();
