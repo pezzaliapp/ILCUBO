@@ -30,9 +30,9 @@ Aggiungere un nuovo pannello "Personalizza" con:
 - [x] Pulsante "Copia link" con feedback visivo
 
 ## Fase 3 — Modalita' gioco extra
-- [ ] Modalita' "Memo": mostra config per X secondi, mischia, l'utente ricostruisce
-- [ ] Galleria pattern famosi (Checkerboard, Superflip, Cube-in-cube) come obiettivi
-- [ ] Modalita' daltonica: aggiunge pattern (puntini/righe) ai colori
+- [x] Modalita' "Memo": mostra config per X secondi, mischia, l'utente ricostruisce
+- [x] Galleria pattern famosi (Checkerboard, Superflip, Cube-in-cube) come obiettivi
+- [x] Modalita' daltonica: aggiunge pattern (puntini/righe) ai colori
 
 ## Fase 4 — Qualita' di vita
 - [ ] Vibration API su mobile a fine rotazione (toggle in preferenze)
