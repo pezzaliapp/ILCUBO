@@ -11,17 +11,17 @@ Spunta `[x]` cio' che completi. Procedi in ordine salvo dipendenze evidenti.
 
 ## Fase 1 — Personalizzazione facce (CORE)
 Aggiungere un nuovo pannello "Personalizza" con:
-- [ ] Per ciascuna delle 6 facce, scelta tra modalita': Colore | Numero | Lettera | Testo | Emoji | Immagine
-- [ ] Modalita' Numero: numera i cubetti da 1 a N^2 (orientamento configurabile)
-- [ ] Modalita' Lettera: lettere A..Z distribuite per riga/colonna
-- [ ] Modalita' Testo:
+- [x] Per ciascuna delle 6 facce, scelta tra modalita': Colore | Numero | Lettera | Testo | Emoji | Immagine
+- [x] Modalita' Numero: numera i cubetti da 1 a N^2 (orientamento configurabile)
+- [x] Modalita' Lettera: lettere A..Z distribuite per riga/colonna
+- [x] Modalita' Testo:
   - input testuale max N caratteri (dove N = lato cubo, es. 4 per 4x4)
   - orientamento orizzontale o verticale (radio button)
   - se l'utente scrive piu' caratteri del consentito -> troncamento + warning visivo
-- [ ] Modalita' Emoji: picker emoji nativo, una emoji per cubetto
-- [ ] Modalita' Immagine: upload file (jpg/png), l'app la suddivide in NxN tile e la applica come texture
-- [ ] Tutto persistito in localStorage chiave `ilcubo.faceConfig`
-- [ ] Pulsante "Reset facce" per tornare al classico
+- [x] Modalita' Emoji: picker emoji nativo, una emoji per cubetto
+- [x] Modalita' Immagine: upload file (jpg/png), l'app la suddivide in NxN tile e la applica come texture
+- [x] Tutto persistito in localStorage chiave `ilcubo.faceConfig`
+- [x] Pulsante "Reset facce" per tornare al classico
 
 ## Fase 2 — Condivisione e import/export
 - [ ] Pulsante "Esporta configurazione" -> scarica JSON
