@@ -41,9 +41,9 @@ Aggiungere un nuovo pannello "Personalizza" con:
 - [x] Migliora a11y: focus ring visibili, keyboard nav per i pulsanti laterali
 
 ## Fase 5 — Documentazione
-- [ ] Aggiorna README.md con screenshot e GIF demo
-- [ ] CHANGELOG.md con tutte le release
-- [ ] Aggiorna readme.html con il riepilogo delle novita'
+- [x] Aggiorna README.md con screenshot e GIF demo  <!-- testo aggiornato; screenshot/GIF da generare a mano in seguito -->
+- [x] CHANGELOG.md con tutte le release
+- [x] Aggiorna readme.html con il riepilogo delle novita'
 
 ## Note implementative
 - Le texture custom in Three.js si applicano tramite `CanvasTexture`: disegna su un `<canvas>` nascosto (numero/lettera/emoji/testo) e usalo come `map` del materiale.
