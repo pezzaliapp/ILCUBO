@@ -372,6 +372,40 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
     const editor = el('div', { id: 'czEditor' });
     card.appendChild(editor);
 
+    // Sezione Condivisione
+    const share = el('div', { id: 'czShare' });
+    share.style.cssText = 'margin-top:14px;padding-top:10px;border-top:1px solid #e5e8ee;';
+    const shareTitle = el('h3', { text: 'Condivisione' });
+    shareTitle.style.cssText = 'margin:0 0 6px;font-size:1rem;';
+    share.appendChild(shareTitle);
+    const shareRow = el('div', { class: 'cz-actions' });
+    shareRow.style.justifyContent = 'flex-start';
+    const exportBtn = el('button', { class: 'cz-action ghost', id: 'czExport', text: 'Esporta JSON' });
+    const importBtn = el('button', { class: 'cz-action ghost', id: 'czImport', text: 'Importa JSON' });
+    const linkBtn   = el('button', { class: 'cz-action ghost', id: 'czLink',   text: 'Copia link' });
+    const fileInput = el('input', { type: 'file', id: 'czImportFile', accept: 'application/json' });
+    fileInput.style.display = 'none';
+    exportBtn.addEventListener('click', exportConfig);
+    importBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => { importConfigText(String(reader.result || '')); fileInput.value = ''; };
+      reader.readAsText(file);
+    });
+    linkBtn.addEventListener('click', () => copyShareLink(linkBtn));
+    shareRow.appendChild(exportBtn);
+    shareRow.appendChild(importBtn);
+    shareRow.appendChild(linkBtn);
+    shareRow.appendChild(fileInput);
+    share.appendChild(shareRow);
+    const linkInfo = el('p', { id: 'czShareNote' });
+    linkInfo.style.cssText = 'margin:6px 0 0;font-size:.8rem;color:#555;';
+    linkInfo.textContent = 'Il link include numeri/lettere/testi/emoji. Le immagini, troppo pesanti per un URL, si condividono via JSON.';
+    share.appendChild(linkInfo);
+    card.appendChild(share);
+
     const actions = el('div', { class: 'cz-actions' });
     const resetBtn = el('button', { class: 'cz-action ghost', id: 'czReset', text: 'Reset facce' });
     resetBtn.addEventListener('click', () => {
@@ -610,9 +644,116 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
     renderEditor();
   }
 
+  // --- Import / Export / Share link ------------------------------------
+  // Versione "leggera" della config: omette _imgEl (Image runtime) e — per
+  // condivisione via URL — anche dataURL dell'immagine (troppo pesante).
+  function configForExport(includeImages) {
+    const out = { version: 1, faces: {} };
+    for (const f of FACES) {
+      const src = state.faces[f] || { mode: 'color' };
+      const dst = { mode: src.mode };
+      if (src.mode === 'number') { dst.orient = src.orient || 'row'; dst.start = src.start != null ? src.start : 1; }
+      if (src.mode === 'letter') { dst.orient = src.orient || 'row'; }
+      if (src.mode === 'text')   { dst.orient = src.orient || 'row'; dst.text = src.text || ''; }
+      if (src.mode === 'emoji')  { dst.list = Array.isArray(src.list) ? src.list.slice() : []; }
+      if (src.mode === 'image') {
+        if (includeImages && src.dataURL) dst.dataURL = src.dataURL;
+        else dst.mode = 'color'; // l'URL non porta immagini
+      }
+      out.faces[f] = dst;
+    }
+    return out;
+  }
+
+  function exportConfig() {
+    const data = configForExport(true);
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ilcubo-config.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 500);
+  }
+
+  function importConfigText(text) {
+    let parsed;
+    try { parsed = JSON.parse(text); }
+    catch (e) { alert('File non valido: JSON non leggibile.'); return; }
+    if (!parsed || typeof parsed !== 'object' || !parsed.faces) {
+      alert('File non valido: manca il campo "faces".');
+      return;
+    }
+    window.ILCUBO.customize.setConfig(parsed);
+  }
+
+  // base64url-safe per query string
+  function b64urlEncode(str) {
+    const b = btoa(unescape(encodeURIComponent(str)));
+    return b.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function b64urlDecode(str) {
+    const pad = str.length % 4 === 0 ? 0 : 4 - (str.length % 4);
+    const norm = str.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat(pad);
+    return decodeURIComponent(escape(atob(norm)));
+  }
+
+  function buildShareUrl() {
+    const data = configForExport(false);
+    const json = JSON.stringify(data);
+    const encoded = b64urlEncode(json);
+    const url = new URL(window.location.href);
+    url.searchParams.set('cfg', encoded);
+    return url.toString();
+  }
+
+  function copyShareLink(btn) {
+    const url = buildShareUrl();
+    const old = btn.textContent;
+    function ok() { btn.textContent = 'Link copiato!'; setTimeout(() => { btn.textContent = old; }, 1600); }
+    function ko() { btn.textContent = 'Errore copia'; setTimeout(() => { btn.textContent = old; }, 1600); prompt('Copia manualmente il link:', url); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(ok).catch(ko);
+    } else {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = url; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); ta.remove(); ok();
+      } catch (_) { ko(); }
+    }
+  }
+
+  function tryLoadFromUrl() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const cfg = params.get('cfg');
+      if (!cfg) return false;
+      const json = b64urlDecode(cfg);
+      const parsed = JSON.parse(json);
+      if (parsed && parsed.faces) {
+        // sovrascrive la config locale ma NON la salva subito:
+        // chiede conferma all'utente per evitare sorprese.
+        const merge = defaultFaceConfig();
+        for (const f of FACES) if (parsed.faces[f]) merge.faces[f] = Object.assign({ mode: 'color' }, parsed.faces[f]);
+        state = merge;
+        saveConfig(state);
+        // pulizia URL per non re-importare al refresh
+        try {
+          const u = new URL(window.location.href); u.searchParams.delete('cfg');
+          history.replaceState(null, '', u.toString());
+        } catch (_) {}
+        return true;
+      }
+    } catch (e) {
+      console.warn('ILCUBO: cfg URL non valida', e);
+    }
+    return false;
+  }
+
   // --- Bootstrap ---------------------------------------------------------
   function boot() {
     buildPanelShell();
+    tryLoadFromUrl();
     whenGameReady(() => {
       installHook();
       applyToCube();

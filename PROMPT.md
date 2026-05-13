@@ -24,10 +24,10 @@ Aggiungere un nuovo pannello "Personalizza" con:
 - [x] Pulsante "Reset facce" per tornare al classico
 
 ## Fase 2 — Condivisione e import/export
-- [ ] Pulsante "Esporta configurazione" -> scarica JSON
-- [ ] Pulsante "Importa configurazione" -> upload JSON
-- [ ] Generazione URL condivisibile: `?cfg=<base64>` che ricrea il cubo all'apertura
-- [ ] Pulsante "Copia link" con feedback visivo
+- [x] Pulsante "Esporta configurazione" -> scarica JSON
+- [x] Pulsante "Importa configurazione" -> upload JSON
+- [x] Generazione URL condivisibile: `?cfg=<base64>` che ricrea il cubo all'apertura
+- [x] Pulsante "Copia link" con feedback visivo
 
 ## Fase 3 — Modalita' gioco extra
 - [ ] Modalita' "Memo": mostra config per X secondi, mischia, l'utente ricostruisce
