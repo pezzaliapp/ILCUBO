@@ -1,5 +1,5 @@
-// service-worker.js — KubeApp v0.0.2 + GA safe
-const CACHE_VERSION = "kubeapp-v002";  // bump versione cache
+// service-worker.js — ILCUBO v0.1.0 + GA safe
+const CACHE_VERSION = "ilcubo-v010";  // bump versione cache
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -24,7 +24,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((k) => k.startsWith("kubeapp-") && k !== CACHE_VERSION)
+          .filter((k) => (k.startsWith("ilcubo-") || k.startsWith("kubeapp-")) && k !== CACHE_VERSION)
           .map((k) => caches.delete(k))
       )
     )

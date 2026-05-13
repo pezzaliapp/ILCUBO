@@ -3,11 +3,11 @@
 Spunta `[x]` cio' che completi. Procedi in ordine salvo dipendenze evidenti.
 
 ## Fase 0 — Setup
-- [ ] Rinomina il progetto in package.json: `"name": "ilcubo"`, version `0.1.0`
-- [ ] Aggiorna `<title>` e meta in index.html: "ILCUBO"
-- [ ] Aggiorna manifest.webmanifest: name "ILCUBO", short_name "ILCUBO"
-- [ ] Crea README.md nuovo per ILCUBO (mantieni quello vecchio come README.legacy.md)
-- [ ] Bump `window.gameVersion` a `'0.1.0'`
+- [x] Rinomina il progetto in package.json: `"name": "ilcubo"`, version `0.1.0`
+- [x] Aggiorna `<title>` e meta in index.html: "ILCUBO"
+- [x] Aggiorna manifest.webmanifest: name "ILCUBO", short_name "ILCUBO"
+- [x] Crea README.md nuovo per ILCUBO (mantieni quello vecchio come README.legacy.md)
+- [x] Bump `window.gameVersion` a `'0.1.0'`
 
 ## Fase 1 — Personalizzazione facce (CORE)
 Aggiungere un nuovo pannello "Personalizza" con:

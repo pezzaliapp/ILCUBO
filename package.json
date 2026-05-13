@@ -1,6 +1,6 @@
 {
-  "name": "il-cubo-di-rubik",
-  "version": "1.0.0",
+  "name": "ilcubo",
+  "version": "0.1.0",
   "author": "Alessandro Pezzali",
   "license": "SEE LICENSE IN LICENSE.txt",
   "scripts": {
