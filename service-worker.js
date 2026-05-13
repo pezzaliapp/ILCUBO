@@ -8,6 +8,7 @@ const APP_SHELL = [
   "./cube.js",
   "./customize.js",
   "./gamemodes.js",
+  "./qol.js",
   "./icons/favicon-16x16.png",
   "./icons/favicon-32x32.png",
   "./icons/apple-touch-icon.png",

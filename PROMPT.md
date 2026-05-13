@@ -35,10 +35,10 @@ Aggiungere un nuovo pannello "Personalizza" con:
 - [x] Modalita' daltonica: aggiunge pattern (puntini/righe) ai colori
 
 ## Fase 4 — Qualita' di vita
-- [ ] Vibration API su mobile a fine rotazione (toggle in preferenze)
-- [ ] Suoni discreti su scramble/solve (toggle, off di default)
-- [ ] Export PNG della configurazione attuale (canvas snapshot)
-- [ ] Migliora a11y: focus ring visibili, keyboard nav per i pulsanti laterali
+- [x] Vibration API su mobile a fine rotazione (toggle in preferenze)
+- [x] Suoni discreti su scramble/solve (toggle, off di default)
+- [x] Export PNG della configurazione attuale (canvas snapshot)
+- [x] Migliora a11y: focus ring visibili, keyboard nav per i pulsanti laterali
 
 ## Fase 5 — Documentazione
 - [ ] Aggiorna README.md con screenshot e GIF demo
