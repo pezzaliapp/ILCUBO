@@ -4,6 +4,22 @@ Tutte le modifiche rilevanti a ILCUBO sono documentate in questo file.
 Formato basato su [Keep a Changelog](https://keepachangelog.com/it/1.1.0/);
 versioning [SemVer](https://semver.org/lang/it/).
 
+## [0.1.1] — 2026-05-14
+
+### Corretto
+- **Texture delle facce personalizzate ora visibili** (`customize.js`): gli
+  sticker generati da `cube.js` (ExtrudeBufferGeometry di una Shape con
+  coordinate ~[-1/6, +1/6]) avevano coordinate UV nello spazio-forma e non
+  in [0,1]. Le texture custom (numero, lettera, testo, emoji, immagine)
+  venivano quindi applicate ma campionate solo in un angolo invisibile,
+  facendo sembrare l'app identica alla versione classica. Aggiunta la
+  funzione `normalizeStickerUVs()` che clona la geometria dello sticker e
+  rimappa l'attributo `uv` su [0,1] in base al bounding box dell'attributo
+  `position`. La geometria condivisa non viene alterata (clone + flag
+  `__ilcuboUVfixed`).
+- Bump `gameVersion` a `0.1.1` e cache service worker a `ilcubo-v011` per
+  invalidare la cache PWA e servire subito il codice aggiornato.
+
 ## [0.1.0] — 2026-05-13
 
 Prima release ILCUBO, evoluzione di KubeApp.

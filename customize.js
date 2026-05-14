@@ -217,6 +217,35 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
     return null;
   }
 
+  // --- Fix UV degli sticker ---------------------------------------------
+  // Gli sticker di cube.js sono ExtrudeBufferGeometry di una Shape con
+  // coordinate ~[-1/6, +1/6]: senza UV generator custom, Three.js assegna
+  // UV pari alla posizione dei vertici, NON in [0,1]. Risultato: una
+  // CanvasTexture verrebbe campionata solo in un angolo. Qui rimappiamo
+  // l'attributo uv su [0,1] in base al bounding box X/Y dell'attributo
+  // position. La geometria viene clonata (e' condivisa fra tutti gli
+  // sticker) e marcata con un flag per non rifare il lavoro a ogni frame.
+  function normalizeStickerUVs(mesh) {
+    const geo = mesh.geometry;
+    if (!geo || geo.__ilcuboUVfixed) return;
+    const g = geo.clone();
+    const pos = g.attributes.position, uv = g.attributes.uv;
+    if (!pos || !uv) return;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i), y = pos.getY(i);
+      if (x < minX) minX = x; if (x > maxX) maxX = x;
+      if (y < minY) minY = y; if (y > maxY) maxY = y;
+    }
+    const dx = (maxX - minX) || 1, dy = (maxY - minY) || 1;
+    for (let i = 0; i < uv.count; i++) {
+      uv.setXY(i, (pos.getX(i) - minX) / dx, (pos.getY(i) - minY) / dy);
+    }
+    uv.needsUpdate = true;
+    g.__ilcuboUVfixed = true;
+    mesh.geometry = g;
+  }
+
   // --- Applicazione al cubo ---------------------------------------------
   function applyToCube() {
     const g = window.game;
@@ -261,6 +290,7 @@ custom, oppure lascia il colore classico quando il modo e' 'color'.
       const { row, col } = stickerCell(parent, fn, size);
       const tex = buildTextureForSticker(fn, row, col, size, faceCfg, colorHex, daltonic);
       if (tex) {
+        normalizeStickerUVs(edge);
         edge.material.color.setHex(0xffffff);
         if (edge.material.map) {
           edge.material.map.dispose && edge.material.map.dispose();
