@@ -40,10 +40,10 @@
     const style = el('style', { id: 'gm-styles' });
     style.textContent = `
       .gm-btn {
-        position: fixed; left: 1rem; top: 3.6rem;
-        height: 2.25rem; padding: 0 .8rem; border-radius: 1.125rem;
+        position: fixed; left: 16px; top: 64px;
+        height: 40px; padding: 0 16px; border-radius: 20px;
         border: 0; background: rgba(0,0,0,.08); color: #111;
-        font: 700 .85rem/1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+        font: 700 15px/1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
         cursor: pointer; z-index: 20;
         box-shadow: 0 2px 6px rgba(0,0,0,.08);
       }
@@ -94,7 +94,7 @@
       }
       #gmCountdown[hidden] { display:none; }
       #gmCountdown .label { font-size: 1rem; opacity: .9; margin-top: 12px; font-weight: 600; }
-      @media (max-width: 480px) { .gm-btn { left: .6rem; top: 3.1rem; } }
+      @media (max-width: 480px) { .gm-btn { left: 10px; top: 58px; } }
     `;
     document.head.appendChild(style);
   }

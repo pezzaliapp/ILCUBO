@@ -1,5 +1,5 @@
 // service-worker.js — ILCUBO v0.1.0 + GA safe
-const CACHE_VERSION = "ilcubo-v011";  // bump versione cache
+const CACHE_VERSION = "ilcubo-v012";  // bump versione cache
 const APP_SHELL = [
   "./",
   "./index.html",

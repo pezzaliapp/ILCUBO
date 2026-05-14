@@ -289,10 +289,10 @@
     const style = document.createElement('style');
     style.textContent = `
       .qol-btn {
-        position: fixed; left: 1rem; top: 6.2rem;
-        height: 2.25rem; padding: 0 .8rem; border-radius: 1.125rem;
+        position: fixed; left: 16px; top: 112px;
+        height: 40px; padding: 0 16px; border-radius: 20px;
         border: 0; background: rgba(0,0,0,.08); color: #111;
-        font: 700 .85rem/1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+        font: 700 15px/1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
         cursor: pointer; z-index: 20;
         box-shadow: 0 2px 6px rgba(0,0,0,.08);
       }
@@ -316,7 +316,7 @@
       }
       .qol-action.primary { background:#111; color:#fff; }
       .qol-action.ghost   { background:#f1f3f7; color:#111; }
-      @media (max-width: 480px) { .qol-btn { left: .6rem; top: 5.6rem; } }
+      @media (max-width: 480px) { .qol-btn { left: 10px; top: 106px; } }
     `;
     document.head.appendChild(style);
 

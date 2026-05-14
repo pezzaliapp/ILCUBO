@@ -4,6 +4,19 @@ Tutte le modifiche rilevanti a ILCUBO sono documentate in questo file.
 Formato basato su [Keep a Changelog](https://keepachangelog.com/it/1.1.0/);
 versioning [SemVer](https://semver.org/lang/it/).
 
+## [0.1.2] — 2026-05-14
+
+### Corretto
+- **Pulsanti UI ora leggibili** (`customize.js`, `gamemodes.js`, `qol.js`,
+  `index.html`): i pulsanti "Personalizza", "Sfide", "Opzioni" e il pulsante
+  aiuto "?" erano dimensionati in unita' `rem`. Poiche' `cube.js` imposta
+  dinamicamente il `font-size` della pagina in proporzione alla finestra
+  (sistema responsive originale di KubeApp), su schermi grandi quei pulsanti
+  diventavano minuscoli e illeggibili. Convertiti a unita' fisse `px`
+  (altezza 40px, font 15px) e leggermente ingranditi. Aggiornate anche le
+  media query per schermi stretti.
+- Bump `gameVersion` a `0.1.2` e cache a `ilcubo-v012`.
+
 ## [0.1.1] — 2026-05-14
 
 ### Corretto
