@@ -31,3 +31,5 @@ Licenza d’Uso — Il Cubo di Rubik PWA
 © 2025 Alessandro Pezzali. Tutti i diritti riservati.
 Licenza d’Uso — Il Cubo di Rubik PWA
 */
+
+@media (max-width:480px){.text--title{font-size:3.2em}}
