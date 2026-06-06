@@ -1,17 +1,19 @@
-// service-worker.js — ILCUBO v0.1.0 + GA safe
-const CACHE_VERSION = "ilcubo-v012";  // bump versione cache
+// service-worker.js — ILCUBO v0.1.3 (pacchetto pulito) — GA safe
+const CACHE_VERSION = "ilcubo-v013"; // bump versione cache a ogni release
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+  "./manifest.webmanifest",
   "./three.js",
   "./cube.js",
-  "./customize.js",
-  "./gamemodes.js",
-  "./qol.js",
+  "./ilcubo.bundle.min.js",
+  "./icons/favicon.ico",
   "./icons/favicon-16x16.png",
   "./icons/favicon-32x32.png",
   "./icons/apple-touch-icon.png",
+  "./icons/android-chrome-192x192.png",
+  "./icons/android-chrome-512x512.png",
   "./icons/meta-image.png"
 ];
 
@@ -39,10 +41,9 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // 1) NON intercettare richieste esterne (Analytics, CDN, ecc.)
+  // 1) NON intercettare richieste esterne (Analytics, CDN, beacon, ecc.)
   if (url.origin !== self.location.origin) {
-    // niente respondWith ⇒ il browser fa la fetch normale
-    return;
+    return; // niente respondWith ⇒ fetch normale del browser
   }
 
   const isHTML =

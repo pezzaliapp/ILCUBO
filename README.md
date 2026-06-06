@@ -1,51 +1,90 @@
-# ILCUBO
+# ILCUBO — pacchetto pulito v0.1.3
 
-Evoluzione di **KubeApp** (Il Cubo di Rubik PWA): un cubo di Rubik 3D giocabile dal browser, con **personalizzazione totale delle facce** (colori, numeri, lettere, testi, emoji, immagini), modalita' Memo, galleria di pattern famosi e altro.
+Cubo di Rubik 3D giocabile dal browser, con personalizzazione totale delle facce
+(colori, numeri, lettere, testi, emoji, immagini), modalità Memo, pattern famosi e altro.
 
-- **Stato**: v0.1.0 — prima release ILCUBO
 - **Autore**: Alessandro Pezzali — [pezzaliAPP.com](https://www.pezzaliapp.com)
 - **Stack**: JavaScript vanilla + Three.js + PWA (manifest, service-worker, cache offline)
+- **Licenza**: proprietaria — vedi [`deploy/LICENSE`](./deploy/LICENSE)
 
-Storia e versione precedente: vedi [`README.legacy.md`](./README.legacy.md).
+## Come è organizzato questo pacchetto
 
-## Novita' rispetto a KubeApp
-
-- 🎨 **Personalizza ogni faccia** scegliendo fra: Colore, Numero (1..N²), Lettera (A..Z), Testo (max N caratteri), Emoji (uno per cubetto), Immagine (suddivisa in N×N tile).
-- 🔗 **Condividi la configurazione** via export/import JSON o tramite un URL `?cfg=…` (base64). Le immagini si condividono solo via JSON.
-- 🧠 **Modalita' Memo**: memorizzi la configurazione per X secondi, il cubo viene mischiato, devi ricostruirlo.
-- 🏆 **Pattern famosi**: Checkerboard, Superflip, Cube-in-cube, Cross, Sei punti — con algoritmo in notazione standard pronto da copiare.
-- 👁️ **Modalita' daltonica**: badge di forma diversa per faccia (•/■/▲/▼/◀/▶) per distinguere le facce senza percepire i colori.
-- 📳 **Vibrazione** (mobile) a fine rotazione, opzionale.
-- 🔊 **Suoni discreti** (WebAudio, senza asset) su mossa/scramble/solve, opzionali.
-- 🖼️ **Esporta PNG** della configurazione in vista "srotolata" (4×3 facce).
-- ♿ **Accessibilita'**: focus visibili, navigazione tastiera.
-
-Le nuove funzioni sono opzionali e disattivabili. Il modo di gioco classico resta identico.
-
-## Sviluppo
-
-```bash
-# server locale per testare la PWA
-python3 -m http.server 8000
-# poi apri http://localhost:8000
+```
+ILCUBO/
+├── deploy/     →  carica SOLO questa cartella sul web (è l'app pubblica)
+└── source/     →  TIENI PRIVATA: codice leggibile per modificare e ricostruire
 ```
 
-Per invalidare la cache offline durante lo sviluppo, bumpa la costante `window.gameVersion` in `index.html` e `CACHE_VERSION` in `service-worker.js`.
+> ⚠️ **Importante per la protezione anti-copia**: pubblica online **solo** `deploy/`.
+> Quella cartella contiene i moduli applicativi **offuscati** in `ilcubo.bundle.min.js`.
+> La cartella `source/` contiene il codice in chiaro: se la pubblichi, vanifichi
+> l'offuscamento. Tienila nel tuo computer / in un repo privato.
 
-## Struttura
+## Pubblicare l'app
 
-- `index.html` — entry point + UI guida
-- `cube.js` — engine del cubo (Three.js, originale KubeApp)
-- `customize.js` — pannello "Personalizza" + condivisione JSON/URL + daltonica
-- `gamemodes.js` — pannello "Sfide" (Memo + pattern famosi)
-- `qol.js` — pannello "Opzioni" (vibrazione, suoni, export PNG, a11y)
-- `service-worker.js` + `manifest.webmanifest` — PWA
-- `baseline/` — copia immutabile della versione KubeApp di partenza (solo riferimento)
+Copia il **contenuto** di `deploy/` nella cartella del tuo hosting (root del sito o
+sottocartella `ILCUBO/`). Per provare in locale:
 
-## Roadmap
+```bash
+cd deploy
+python3 -m http.server 8000
+# apri http://localhost:8000
+```
 
-Vedi [`PROMPT.md`](./PROMPT.md) (tutte le fasi 0–5 completate per la v0.1.0).
-Changelog: [`CHANGELOG.md`](./CHANGELOG.md).
+## Modificare il codice e ricostruire il bundle
+
+Le funzioni dell'app vivono in `source/customize.js`, `source/gamemodes.js`,
+`source/qol.js` (codice leggibile). Dopo ogni modifica, rigenera il bundle:
+
+```bash
+cd source
+bash build.sh
+```
+
+Lo script ricrea `deploy/ilcubo.bundle.min.js` (minificato + offuscato) e ne verifica
+la validità. Vedi [`source/README.md`](./source/README.md) per i dettagli.
+
+## Protezione e attribuzione (cosa è già attivo)
+
+Essendo una PWA, il codice gira nel browser e **non è tecnicamente blindabile**:
+l'obiettivo è rendere la copia scomoda, attribuibile e perseguibile. In questo
+pacchetto trovi:
+
+- **Bundle offuscato** dei moduli applicativi (anti copia-incolla facile).
+- **Niente copia di riferimento pubblica** (la vecchia cartella `baseline/` è stata rimossa).
+- **Avviso di copyright a runtime** in console + **stringa-firma "canary"**
+  (`ILCUBO-SIG:…`) per ritrovare cloni con una ricerca o un Google Alert.
+- **Watermark** `ILCUBO — pezzaliAPP.com` sull'export PNG.
+- **Rilevamento dominio non autorizzato** con **beacon opzionale**.
+- **Licenza** "All Rights Reserved" + note di copyright in ogni file core.
+
+### Configurare il beacon di rilevamento (opzionale)
+
+Apri `source/_prelude.js`, sezione `CONFIGURAZIONE LICENZA`:
+
+- `allowedHosts`: i tuoi domini di produzione (oltre a `localhost`).
+- `beaconUrl`: il **tuo** endpoint. Se valorizzato, quando l'app gira su un dominio
+  non autorizzato invia una segnalazione (host, path, referrer, timestamp). Lascialo
+  `''` per disattivarlo.
+
+Poi rigenera il bundle con `bash source/build.sh`.
+
+> Il controllo dominio **non blocca** l'app di proposito: un blocco rigido è
+> facilmente aggirabile e rischia di rompere usi legittimi (es. un nuovo tuo
+> dominio). Il valore sta nel *sapere* dove gira, non nell'impedirlo.
+
+### Tutela legale consigliata
+
+Per rendere la licenza azionabile, conserva una **prova di data certa** della
+paternità (commit Git firmati, PEC a te stesso, o deposito software). Verifica
+inoltre la licenza dell'engine `cube.js` (deriva dal progetto KubeApp/da un cubo
+open-source preesistente) e rispettane eventuali obblighi di attribuzione: la
+coerenza della catena di licenze rafforza le tue rivendicazioni.
+
+## Versioni
+
+Allineate a **0.1.3**: `package.json`, `window.gameVersion` (in `index.html`),
+`CACHE_VERSION` (in `service-worker.js`). Vedi [`CHANGELOG.md`](./CHANGELOG.md).
 
 ---
 

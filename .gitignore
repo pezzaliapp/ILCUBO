@@ -1,8 +1,12 @@
+# Sistema operativo
 .DS_Store
+__MACOSX/
+Thumbs.db
+
+# Dipendenze / build tools
 node_modules/
-export/
+npm-debug.log*
+
+# Temporanei
+*.tmp
 *.log
-.vscode/
-.idea/
-.env
-.env.local
