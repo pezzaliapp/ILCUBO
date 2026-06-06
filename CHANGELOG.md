@@ -4,6 +4,37 @@ Tutte le modifiche rilevanti a ILCUBO sono documentate in questo file.
 Formato basato su [Keep a Changelog](https://keepachangelog.com/it/1.1.0/);
 versioning [SemVer](https://semver.org/lang/it/).
 
+## [0.1.3] — 2026-06-06
+
+### Aggiunto
+- **Bundle applicativo protetto** (`ilcubo.bundle.min.js`): `customize.js`,
+  `gamemodes.js` e `qol.js` sono ora concatenati, minificati e **offuscati**
+  in un unico file. Sorgenti leggibili spostati in `source/` (da tenere privati);
+  ricostruzione via `source/build.sh`.
+- **Prelude di protezione** (`source/_prelude.js`): avviso di copyright a runtime
+  in console, stringa-firma "canary" (`ILCUBO-SIG:…`), rilevamento dominio non
+  autorizzato e **beacon opzionale** (configurabile, disattivato di default).
+
+### Cambiato
+- **Struttura repo** separata in `deploy/` (pubblicabile) e `source/` (privata).
+- `index.html` carica il bundle unico al posto dei tre moduli separati.
+- `service-worker.js`: `CACHE_VERSION` → `ilcubo-v013`; in cache anche
+  `manifest.webmanifest`, `favicon.ico` e `apple-touch-icon.png`.
+- `manifest.webmanifest` arricchito: `description`, `scope`, `id`, `lang`,
+  `categories` e icona `purpose: "maskable"`.
+- Versioni allineate a **0.1.3** (`package.json`, `window.gameVersion`, cache SW).
+- `og:url` corretto su `https://www.pezzaliapp.com/ILCUBO/`.
+- Anno di copyright uniformato a **2016–2026** nella licenza.
+
+### Rimosso
+- `app.js` (prototipo morto, non referenziato, puntava a DOM inesistente).
+- `style.css` (placeholder vuoto non referenziato).
+- `upup.min.js` / `upup.sw.min.js` (libreria UpUp superata dal service-worker custom).
+- `baseline/` (copia di riferimento ~640 KB: regalava una versione pulita ai copioni;
+  resta nella cronologia Git).
+- `LICENSE.txt` duplicato (mantenuto solo `LICENSE`).
+- Cartella di sistema `__MACOSX/` (spazzatura macOS).
+
 ## [0.1.2] — 2026-05-14
 
 ### Corretto

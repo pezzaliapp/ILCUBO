@@ -1,10 +1,16 @@
 {
   "name": "ilcubo",
-  "version": "0.1.0",
-  "author": "Alessandro Pezzali",
-  "license": "SEE LICENSE IN LICENSE.txt",
+  "version": "0.1.3",
+  "description": "Cubo di Rubik 3D personalizzabile — PWA vanilla JS + Three.js",
+  "author": "Alessandro Pezzali (https://www.pezzaliapp.com)",
+  "license": "SEE LICENSE IN deploy/LICENSE",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.build.js && cp upup.min.js export/ && cp upup.sw.min.js export/ && cp index.html export/ && cp -R assets export/"
+    "build": "bash source/build.sh",
+    "start": "cd deploy && python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "javascript-obfuscator": "^5.0.0",
+    "terser": "^5.0.0"
   }
 }

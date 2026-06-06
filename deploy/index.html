@@ -17,7 +17,7 @@ Licenza d’Uso — Il Cubo di Rubik PWA
   <meta property="og:title" content="ILCUBO" />
   <meta property="og:description" content="Gioca, personalizza e risolvi il cubo!" />
   <meta property="og:image" content="icons/meta-image.png" />
-  <meta property="og:url" content="https://www.alessandropezzali.it/KubeApp/" />
+  <meta property="og:url" content="https://www.pezzaliapp.com/ILCUBO/" />
 
   <!-- PWA / iOS -->
   <meta name="mobile-web-app-capable" content="yes" />
@@ -37,7 +37,7 @@ Licenza d’Uso — Il Cubo di Rubik PWA
 
   <script>
     // bump per forzare l'invalidation della cache offline
-    window.gameVersion = '0.1.2'; // ILCUBO — pulsanti UI leggibili
+    window.gameVersion = '0.1.3'; // ILCUBO — pacchetto pulito + bundle protetto
   </script>
 
   <!-- CSS minimo per il pannello Aiuto (isolato, non tocca gli stili esistenti) -->
@@ -217,12 +217,10 @@ Licenza d’Uso — Il Cubo di Rubik PWA
     </div>
   </div>
 
-  <!-- JS: bundle unico -->
+  <!-- JS: libreria + engine + bundle applicativo protetto -->
   <script src="three.js"></script>
   <script src="cube.js"></script>
-  <script src="customize.js"></script>
-  <script src="gamemodes.js"></script>
-  <script src="qol.js"></script>
+  <script src="ilcubo.bundle.min.js"></script>
 
   <!-- Script minimo per aprire/chiudere l’Aiuto (nessun impatto sul gioco) -->
   <script>
