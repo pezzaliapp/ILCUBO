@@ -7,6 +7,11 @@ Cubo di Rubik 3D giocabile dal browser, con personalizzazione totale delle facce
 - **Stack**: JavaScript vanilla + Three.js + PWA (manifest, service-worker, cache offline)
 - **Licenza**: proprietaria — vedi [`deploy/LICENSE`](./deploy/LICENSE)
 
+> Le componenti di terze parti (the-cube di Boris Šehovac, Three.js) restano
+> sotto licenza MIT; vedi [`THIRD-PARTY.txt`](./THIRD-PARTY.txt). La licenza
+> proprietaria 'All Rights Reserved' si applica al codice originale ILCUBO
+> (moduli di personalizzazione, sfide, opzioni e relativa UI).
+
 ## Come è organizzato questo pacchetto
 
 ```
