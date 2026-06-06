@@ -3,45 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Guida — Cancellare la Cache</title>
+  <title>ILCUBO — Pulizia cache & reset PWA</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      max-width: 900px;
+      max-width: 720px;
       margin: auto;
-      padding: 20px;
-      line-height: 1.65;
+      padding: 24px 20px 48px;
+      line-height: 1.6;
       background: #fafafa;
       color: #222;
     }
     h1 {
-      font-size: 1.9em;
-      margin-bottom: .5em;
+      font-size: 1.7em;
+      margin-bottom: .3em;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    h2 {
-      margin-top: 1.8em;
-      border-left: 4px solid #0b5fff;
-      padding-left: .6em;
-      color: #0b5fff;
-      font-size: 1.35em;
+    p { text-align: left; }
+    .card {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 12px;
+      padding: 18px 18px 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      margin: 18px 0;
     }
-    p { text-align: justify; }
-    ul { padding-left: 1.2em; }
-    li { margin: .5em 0; }
-    .icon {
-      width: 26px;
-      height: 26px;
-      vertical-align: middle;
-      margin-right: 6px;
+    #log {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .9em;
+      background: #0f1115;
+      color: #d6e2ff;
+      border-radius: 10px;
+      padding: 14px 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 96px;
+      margin: 12px 0;
     }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 4px; }
+    button, .btn {
+      -webkit-appearance: none; appearance: none;
+      border: 0; border-radius: 10px;
+      padding: 12px 18px; font-size: 1em; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-block;
+    }
+    .primary { background: #0b5fff; color: #fff; }
+    .ghost   { background: #eef1f6; color: #111; }
+    .primary:active, .ghost:active { transform: translateY(1px); }
     .note {
       background: #fff8e5;
       border-left: 4px solid #ffb100;
       padding: 12px 14px;
       margin: 1.2em 0;
+      border-radius: 6px;
     }
     .footer {
       margin-top: 2em;
@@ -51,89 +67,107 @@
       color: #555;
       text-align: center;
     }
+    a { color: #0b5fff; }
   </style>
-  <!-- Google tag (gtag.js) – KubeApp -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KLGK05W60D"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-
-  // Configurazione per tracciare correttamente la pagina
-  gtag('config', 'G-KLGK05W60D', {
-    page_path: location.pathname + location.search + location.hash
-  });
-</script>
 </head>
 <body>
 
-<h1>🧹 Guida per Cancellare la Cache</h1>
+<h1>🧹 ILCUBO — Reset cache &amp; PWA</h1>
 <p>
-Per installare correttamente la nuova versione della <b>KubeApp</b> è necessario cancellare la cache del browser o del dispositivo.  
-Segui attentamente le istruzioni qui sotto in base al tuo sistema operativo o browser.
+  Questa pagina <b>ripulisce automaticamente</b> il service worker e tutte le cache
+  offline di <b>ILCUBO</b>. Serve quando, dopo un aggiornamento, l’app resta bloccata
+  su una <b>pagina bianca</b> (tipico su iPhone/Safari): è quasi sempre una vecchia
+  versione “congelata” in cache.
 </p>
 
-<div class="note">ℹ️ Dopo aver svuotato la cache, riapri <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a> e reinstalla la PWA per ottenere la versione aggiornata.</div>
+<div class="card">
+  <p><b>Cosa succede premendo il pulsante:</b></p>
+  <ul>
+    <li>Disinstallo <b>tutti i service worker</b> registrati per questo sito.</li>
+    <li>Cancello <b>tutte le cache</b> offline (ILCUBO e la vecchia KubeApp).</li>
+    <li>Ti riporto su <a href="/ILCUBO/">ILCUBO</a> con la versione aggiornata.</li>
+  </ul>
 
-<h2><img src="https://img.icons8.com/color/48/chrome--v1.png" class="icon"> Google Chrome (Windows / macOS)</h2>
-<ul>
-  <li>Apri Chrome.</li>
-  <li>Premi <b>Ctrl + Shift + Delete</b> (Windows) oppure <b>Cmd + Shift + Delete</b> (Mac).</li>
-  <li>Nella finestra che si apre seleziona l’intervallo di tempo <b>Tutto</b>.</li>
-  <li>Spunta solo la voce <b>Immagini e file memorizzati nella cache</b>.</li>
-  <li>Clicca su <b>Cancella dati</b>.</li>
-  <li>Chiudi e riapri il browser, quindi torna su <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a>.</li>
-</ul>
+  <div class="row">
+    <button id="clearBtn" class="primary">🧹 Pulisci ora e riapri ILCUBO</button>
+    <a class="btn ghost" href="/ILCUBO/">↩︎ Vai a ILCUBO senza pulire</a>
+  </div>
 
-<h2><img src="https://img.icons8.com/color/48/firefox.png" class="icon"> Mozilla Firefox</h2>
-<ul>
-  <li>Apri Firefox.</li>
-  <li>Premi <b>Ctrl + Shift + Delete</b> (Windows) oppure <b>Cmd + Shift + Delete</b> (Mac).</li>
-  <li>Nel menu “Intervallo di tempo da cancellare” scegli <b>Tutto</b>.</li>
-  <li>Spunta solo la voce <b>Cache</b>.</li>
-  <li>Clicca su <b>Cancella adesso</b>.</li>
-  <li>Riapri il sito <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a>.</li>
-</ul>
+  <div id="log" aria-live="polite">Pronto. Premi “Pulisci ora”.</div>
+</div>
 
-<h2><img src="https://img.icons8.com/ios-filled/50/safari--v1.png" class="icon"> Safari (macOS)</h2>
-<ul>
-  <li>Apri Safari.</li>
-  <li>Vai su <b>Safari → Impostazioni → Avanzate</b> e abilita “Mostra menu Sviluppo”.</li>
-  <li>Dal menu <b>Sviluppo</b> seleziona <b>Svuota cache</b>.</li>
-  <li>Ricarica la pagina <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a>.</li>
-</ul>
-
-<h2><img src="https://img.icons8.com/ios-filled/50/iphone-x.png" class="icon"> Safari (iOS — iPhone / iPad, iOS 26 incluso)</h2>
-<ul>
-  <li>Vai su <b>Impostazioni → Safari</b>.</li>
-  <li>Tocca <b>Cancella dati siti web e cronologia</b>.</li>
-  <li>Conferma toccando nuovamente <b>Cancella</b>.</li>
-  <li>Riapri Safari e apri <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a>.</li>
-</ul>
-
-<h2><img src="https://img.icons8.com/color/48/edge.png" class="icon"> Microsoft Edge (Windows / macOS)</h2>
-<ul>
-  <li>Apri Edge.</li>
-  <li>Premi <b>Ctrl + Shift + Delete</b>.</li>
-  <li>Seleziona l’intervallo di tempo <b>Tutto</b>.</li>
-  <li>Spunta solo la voce <b>File e immagini memorizzati nella cache</b>.</li>
-  <li>Clicca su <b>Cancella ora</b>.</li>
-  <li>Riapri il sito <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a>.</li>
-</ul>
-
-<h2><img src="https://img.icons8.com/color/48/android-os.png" class="icon"> Android (Chrome)</h2>
-<ul>
-  <li>Apri l’app Chrome.</li>
-  <li>Tocca il menu <b>(⋮)</b> in alto a destra e scegli <b>Cronologia → Cancella dati di navigazione</b>.</li>
-  <li>Imposta l’intervallo di tempo su <b>Tutto</b>.</li>
-  <li>Spunta <b>Immagini e file memorizzati nella cache</b>.</li>
-  <li>Tocca <b>Cancella dati</b> e conferma.</li>
-  <li>Riapri <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp</a>.</li>
-</ul>
+<div class="note">
+  ℹ️ Se dopo la pulizia vedi ancora la pagina bianca, chiudi <b>completamente</b> Safari
+  (scorri via la scheda dal selettore app) e riapri <a href="/ILCUBO/">ILCUBO</a>.
+  Se avevi aggiunto l’app alla schermata Home, rimuovi l’icona e reinstallala.
+</div>
 
 <div class="footer">
-  <p>© 2025 Alessandro Pezzali — <a href="https://www.alessandropezzali.it/KubeApp/">KubeApp PWA</a></p>
+  <p>© 2025 Alessandro Pezzali — <a href="/ILCUBO/">ILCUBO PWA</a> — una PWA di pezzaliAPP.com</p>
 </div>
+
+<script>
+(function () {
+  const logEl = document.getElementById('log');
+  const btn   = document.getElementById('clearBtn');
+  const TARGET = '/ILCUBO/';
+
+  function log(msg) {
+    logEl.textContent += '\n' + msg;
+  }
+
+  async function clearAll() {
+    btn.disabled = true;
+    logEl.textContent = '⏳ Pulizia in corso…';
+
+    // 1) Disinstalla tutti i service worker
+    try {
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        if (!regs.length) {
+          log('• Nessun service worker registrato.');
+        } else {
+          for (const reg of regs) {
+            const ok = await reg.unregister();
+            log('• Service worker disinstallato: ' + (ok ? 'OK' : 'già rimosso'));
+          }
+        }
+      } else {
+        log('• Service worker non supportato dal browser.');
+      }
+    } catch (e) {
+      log('• Errore disinstallazione SW: ' + e.message);
+    }
+
+    // 2) Cancella tutte le cache
+    try {
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        if (!keys.length) {
+          log('• Nessuna cache da cancellare.');
+        } else {
+          for (const k of keys) {
+            await caches.delete(k);
+            log('• Cache cancellata: ' + k);
+          }
+        }
+      } else {
+        log('• Cache API non supportata dal browser.');
+      }
+    } catch (e) {
+      log('• Errore cancellazione cache: ' + e.message);
+    }
+
+    log('✅ Fatto! Riapro ILCUBO tra 2 secondi…');
+    // Bust dell'eventuale cache HTTP con un parametro anti-cache.
+    setTimeout(function () {
+      location.href = TARGET + '?fresh=' + (new Date().getTime());
+    }, 2000);
+  }
+
+  btn.addEventListener('click', clearAll);
+})();
+</script>
 
 </body>
 </html>
