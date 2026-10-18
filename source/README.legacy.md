@@ -1,16 +1,16 @@
-# 🧩 Il Cubo di Rubik — PWA
+# 🧩 ILCUBO — PWA
 ![Icona App](icons/apple-touch-icon.png)
 
 **© 2016–2025 pezzaliAPP — Tutti i diritti riservati**  
-**Licenza d’Uso — Il Cubo di Rubik PWA**
+**Licenza d’Uso — ILCUBO PWA**
 
 ---
 
 ## 📖 Panoramica
 
-Questa **Progressive Web App (PWA)** dedicata al **Cubo di Rubik** è il risultato di un percorso personale e professionale iniziato nel **2017** e sviluppato nel corso di quasi dieci anni, con numerose iterazioni tecniche e grafiche.  
+Questa **Progressive Web App (PWA)** dedicata al **cubo magico** è il risultato di un percorso personale e professionale iniziato nel **2017** e sviluppato nel corso di quasi dieci anni, con numerose iterazioni tecniche e grafiche.  
 
-Il progetto nasce dopo un “inciampo” di **salute del 03 novembre 2016**: in quel momento un collega mi regalò un **Cubo di Rubik** come stimolo per reagire, mantenere la **dopamina** attiva e rimettere in moto la mente.  
+Il progetto nasce dopo un “inciampo” di **salute del 03 novembre 2016**: in quel momento un collega mi regalò un **cubo magico** come stimolo per reagire, mantenere la **dopamina** attiva e rimettere in moto la mente.  
 Da lì è iniziato un viaggio fatto di prove, errori, studio e crescita nel coding.
 
 > ℹ️ **Nota**: online possono esistere grafiche *simili* perché ispirate o rese possibili da **librerie pubbliche**.  
@@ -47,7 +47,7 @@ Da lì è iniziato un viaggio fatto di prove, errori, studio e crescita nel codi
 ---
 
 ## 📖 Storia del progetto
-- **2016** → Punto di partenza: un regalo (il Cubo di Rubik) come stimolo dopo un problema di salute.  
+- **2016** → Punto di partenza: un regalo (un cubo magico) come stimolo dopo un problema di salute.  
 - **2017** → Primo algoritmo di risoluzione sviluppato in Python.  
 - **2018–2020** → Esperimenti grafici con librerie open source.  
 - **2021–2024** → Conversione verso il gioco, varianti di colore, dimensioni e stili.  

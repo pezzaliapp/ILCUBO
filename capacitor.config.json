@@ -1,0 +1,14 @@
+{
+  "appId": "com.alessandropezzali.ILCUBO",
+  "appName": "ILCUBO",
+  "webDir": "www",
+  "backgroundColor": "#ffffff",
+  "ios": {
+    "contentInset": "never",
+    "scrollEnabled": false,
+    "preferredContentMode": "mobile"
+  },
+  "plugins": {
+    "StatusBar": { "overlaysWebView": false, "style": "LIGHT", "backgroundColor": "#ffffff" }
+  }
+}

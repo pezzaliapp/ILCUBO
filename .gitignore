@@ -10,3 +10,12 @@ npm-debug.log*
 # Temporanei
 *.tmp
 *.log
+
+# App iOS (Capacitor)
+www/
+ios/App/App/public/
+ios/App/App/capacitor.config.json
+ios/App/App/config.xml
+ios/App/build/
+ios/App/DerivedData/
+xcuserdata/

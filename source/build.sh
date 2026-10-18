@@ -13,7 +13,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-OUT="../deploy/ilcubo.bundle.min.js"
+OUT="../docs/ilcubo.bundle.min.js"
 TMPDIR_B="$(mktemp -d)"
 TMP_APP="$TMPDIR_B/app.js"
 TMP_APP_OBF="$TMPDIR_B/app.obf.js"

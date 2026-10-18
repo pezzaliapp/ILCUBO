@@ -1,7 +1,7 @@
 # ILCUBO — Istruzioni per Claude Code
 
 ## Contesto
-ILCUBO e' l'evoluzione di KubeApp (Cubo di Rubik PWA sviluppato da Alessandro Pezzali, 2016-2025).
+ILCUBO e' l'evoluzione di KubeApp (cubo magico PWA sviluppato da Alessandro Pezzali, 2016-2025).
 Stack: JavaScript vanilla + Three.js + PWA (manifest, service-worker, cache offline).
 Autore: Alessandro Pezzali — pezzaliAPP.com
 Licenza: proprietaria (vedi LICENSE.txt). Non rimuovere le note di copyright.

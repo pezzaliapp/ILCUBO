@@ -4,6 +4,32 @@ Tutte le modifiche rilevanti a ILCUBO sono documentate in questo file.
 Formato basato su [Keep a Changelog](https://keepachangelog.com/it/1.1.0/);
 versioning [SemVer](https://semver.org/lang/it/).
 
+## [0.1.6] — 2026-10-18
+
+### Aggiunto
+- **App iOS per l'App Store** (`ios/`, Capacitor 8): il gioco gira interamente nell'app, offline.
+  La copia per l'app (`www/`, generata da `npm run ios:sync`) esclude analytics e service worker,
+  salva ed esporta i file tramite il foglio di condivisione di iOS e usa link verso il sito.
+  Guida, testi e screenshot in `PUBBLICAZIONE-IOS.md` e `store/screenshots/`.
+- `docs/privacy.html`: informativa privacy dell'app iOS.
+
+### Cambiato
+- Tolto il marchio registrato "Rubik" da sito, manifest e documentazione ("cubo magico").
+- Schema colori "Erno" rinominato "Vivace".
+- `source/build.sh` scrive il bundle in `docs/` (prima in `deploy/`, cartella non più esistente).
+- Versioni allineate a **0.1.6** (`package.json`, `window.gameVersion`, `CACHE_VERSION`, README).
+
+- **Licenze e attribuzioni verificate e completate** (`THIRD-PARTY.txt`, `docs/LICENSE`, README):
+  aggiunti RoundedBoxGeometry (Dusan Bosnjak, MIT) e il carattere Bungee (SIL OFL 1.1, testo
+  integrale), precisata l'origine MIT di "The Cube" (Pen pubblica su CodePen).
+- Sezione **Crediti** nella guida dell'app.
+- Icone del sito provenienti dal repository "the-cube" sostituite con icone originali ILCUBO;
+  `browserconfig.xml` corretto (percorso e colore).
+
+### Corretto
+- `cube.js`: rimossa una patch finale mai eseguita che all'avvio generava
+  `ReferenceError: S is not defined`.
+
 ## [0.1.3] — 2026-06-06
 
 ### Aggiunto

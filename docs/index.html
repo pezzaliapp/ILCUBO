@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <!--
 © 2025 Alessandro Pezzali. Tutti i diritti riservati.
-Licenza d’Uso — Il Cubo di Rubik PWA
+Licenza d’Uso — ILCUBO PWA
 -->
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0" />
   <meta name="author" content="Alessandro Pezzali" />
-  <meta name="description" content="ILCUBO — Cubo di Rubik personalizzabile con colori, numeri, lettere, testi, emoji e immagini." />
+  <meta name="description" content="ILCUBO — cubo magico 3D personalizzabile con colori, numeri, lettere, testi, emoji e immagini." />
   <title>ILCUBO</title>
 
   <!-- Open Graph -->
@@ -37,7 +37,7 @@ Licenza d’Uso — Il Cubo di Rubik PWA
 
   <script>
     // bump per forzare l'invalidation della cache offline
-    window.gameVersion = '0.1.5'; // ILCUBO — pacchetto pulito + bundle protetto
+    window.gameVersion = '0.1.6'; // ILCUBO — pacchetto pulito + bundle protetto
   </script>
 
   <!-- CSS minimo per il pannello Aiuto (isolato, non tocca gli stili esistenti) -->
@@ -107,7 +107,7 @@ Licenza d’Uso — Il Cubo di Rubik PWA
 
   <noscript>
     <p style="padding:12px;background:#ffeded;color:#900;font-family:system-ui,Arial">
-      Attiva JavaScript per giocare al Cubo di Rubik.
+      Attiva JavaScript per giocare a ILCUBO.
     </p>
   </noscript>
 
@@ -153,6 +153,15 @@ Licenza d’Uso — Il Cubo di Rubik PWA
 
       <p><b>Fatto!</b> Il cubo è risolto 🎉</p>
 
+      <h3 style="font-size:15px">Crediti</h3>
+      <p style="font-size:13px;line-height:1.45;text-transform:none;opacity:.85">
+        ILCUBO © 2016–2026 Alessandro Pezzali.<br>
+        Motore di gioco basato su “The Cube” di Boris Šehovac (MIT), con RoundedBoxGeometry
+        di Dusan Bosnjak (MIT) e Three.js © three.js authors (MIT).
+        Carattere Bungee di David Jonathan Ross © The Bungee Project Authors (SIL Open Font License 1.1).
+        Testi completi delle licenze nel file THIRD-PARTY.txt incluso nell’app.
+      </p>
+
       <div class="help-actions">
         <button class="help-close" id="helpClose" title="Chiudi guida">Chiudi</button>
       </div>
@@ -189,7 +198,7 @@ Licenza d’Uso — Il Cubo di Rubik PWA
       <range name="flip" title="Tipo di Rotazione" list="Rapido,Morbido,Rimbalzo"></range>
       <range name="scramble" title="Lunghezza Mischia" list="20,25,30"></range>
       <range name="fov" title="Angolo Camera" list="Ortografica,Prospettica"></range>
-      <range name="theme" title="Schema Colori" list="Classico,Erno,Polvere,Camo,Pioggia"></range>
+      <range name="theme" title="Schema Colori" list="Classico,Vivace,Polvere,Camo,Pioggia"></range>
     </div>
 
     <div class="ui__theme">

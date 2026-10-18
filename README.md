@@ -1,10 +1,10 @@
-# ILCUBO — pacchetto pulito v0.1.3
+# ILCUBO — pacchetto pulito v0.1.6
 
-Cubo di Rubik 3D giocabile direttamente dal browser, con personalizzazione completa delle facce (colori, numeri, lettere, testi, emoji, immagini), modalità Memo, pattern famosi e altre funzionalità interattive.
+Cubo magico 3D giocabile direttamente dal browser, con personalizzazione completa delle facce (colori, numeri, lettere, testi, emoji, immagini), modalità Memo, pattern famosi e altre funzionalità interattive.
 
 - **Autore:** Alessandro Pezzali — [pezzaliAPP.com](https://www.pezzaliapp.com/)
 - **Stack:** JavaScript vanilla + Three.js + PWA (manifest, service worker, cache offline)
-- **Versione:** 0.1.3
+- **Versione:** 0.1.6
 - **Licenza:** proprietaria — [docs/LICENSE](./docs/LICENSE)
 - **Componenti di terze parti:** [THIRD-PARTY.txt](./THIRD-PARTY.txt)
 
@@ -22,7 +22,7 @@ Cubo di Rubik 3D giocabile direttamente dal browser, con personalizzazione compl
 
 ```text
 ILCUBO/
-├── docs/                 → App pubblica e documentazione
+├── docs/                 → App pubblica (sito, GitHub Pages)
 │   ├── icons/            → Icone applicazione
 │   ├── LICENSE           → Licenza proprietaria
 │   ├── THIRD-PARTY.txt   → Licenze e attribuzioni
@@ -30,10 +30,18 @@ ILCUBO/
 │   ├── ilcubo.bundle.min.js
 │   ├── index.html
 │   ├── manifest.webmanifest
+│   ├── privacy.html      → Informativa privacy dell'app iOS
 │   ├── service-worker.js
 │   ├── styles.css
 │   └── three.js
+├── ios/                  → App nativa per iPhone e iPad (Xcode, Capacitor)
+├── native/native.js      → Integrazione iOS (salvataggio e condivisione file)
+├── scripts/build-www.mjs → Prepara la copia del gioco per l'app (cartella www/, non versionata)
+├── resources/            → Icona e schermata di avvio dell'app
+├── store/screenshots/    → Screenshot per App Store Connect
 ├── source/               → Codice sorgente leggibile
+├── capacitor.config.json
+├── PUBBLICAZIONE-IOS.md  → Guida e testi per l'App Store
 ├── .gitignore
 ├── CHANGELOG.md
 ├── README.md
@@ -68,6 +76,19 @@ Aprire nel browser:
 
 L'applicazione può essere pubblicata anche su un hosting statico compatibile, mantenendo i percorsi necessari al funzionamento della PWA.
 
+## App iOS (App Store)
+
+La cartella `ios/` contiene l'app nativa per iPhone e iPad, che impacchetta il gioco di `docs/`
+e funziona interamente offline. La copia per l'app esclude analytics e service worker e adatta
+alcuni testi; il sito non viene modificato. Istruzioni, testi e screenshot per App Store Connect
+in [PUBBLICAZIONE-IOS.md](./PUBBLICAZIONE-IOS.md).
+
+```bash
+npm install
+npm run ios:sync   # prepara la copia del gioco per l'app
+npm run ios:open   # apre il progetto in Xcode
+```
+
 ## Modificare il codice e ricostruire il bundle
 
 Le principali funzionalità personalizzate dell'applicazione sono sviluppate nei moduli:
@@ -85,7 +106,7 @@ bash build.sh
 
 Lo script ricostruisce il bundle JavaScript minificato e offuscato e ne verifica la validità.
 
-**Nota:** verificare che il percorso di destinazione configurato nello script corrisponda alla cartella pubblica `docs/`.
+Il bundle viene scritto in `docs/ilcubo.bundle.min.js`. Dopo averlo rigenerato, per aggiornare anche l'app iOS eseguire `npm run ios:sync`.
 
 Per ulteriori informazioni consultare [source/README.md](./source/README.md).
 
@@ -146,8 +167,18 @@ Il codice originale, le funzionalità personalizzate e le interfacce specificame
 
 **The Cube — Boris Šehovac**
 
-- Progetto originale: [github.com/bsehovac/the-cube](https://github.com/bsehovac/the-cube)
+- Pen pubblica: [codepen.io/bsehovac/pen/EMyWVv](https://codepen.io/bsehovac/pen/EMyWVv) — licenza MIT (regola CodePen per le Pen pubbliche)
+- Repository: [github.com/bsehovac/the-cube](https://github.com/bsehovac/the-cube) (nessun file di licenza; `package.json`: ISC)
+
+**RoundedBoxGeometry — Dusan Bosnjak (pailhead)**
+
+- Repository: [github.com/pailhead/three-rounded-box](https://github.com/pailhead/three-rounded-box)
 - Licenza: MIT
+
+**Carattere Bungee — David Jonathan Ross**
+
+- Repository: [github.com/djrrb/Bungee](https://github.com/djrrb/Bungee)
+- Licenza: SIL Open Font License 1.1
 
 **Three.js**
 
@@ -163,9 +194,19 @@ Le licenze originali devono essere rispettate anche nelle copie distribuite dell
 
 ### Verifica delle dipendenze
 
-È opportuno completare la verifica della provenienza e della licenza del motore `cube.js`, indicato nella documentazione come derivato da KubeApp o da un precedente progetto open source.
+Verifica eseguita il 18/10/2026:
 
-Eventuali ulteriori obblighi di attribuzione devono essere conservati.
+- Il motore `cube.js` deriva da "The Cube" di Boris Šehovac, pubblicato come Pen pubblica su
+  CodePen (licenza MIT) e su GitHub (senza file di licenza, `package.json`: ISC).
+- Il motore include RoundedBoxGeometry di Dusan Bosnjak (MIT).
+- `styles.css` incorpora il carattere Bungee (SIL Open Font License 1.1): può essere distribuito
+  e venduto insieme al software, ma non da solo, e va accompagnato dalla sua licenza.
+- Le icone del sito che provenivano dal repository "the-cube" sono state sostituite con icone
+  originali ILCUBO.
+
+Tutte le licenze consentono l'uso commerciale, a condizione di conservare gli avvisi di copyright
+e i testi delle licenze (THIRD-PARTY.txt, incluso anche nell'app iOS) e i crediti nella guida
+dell'app.
 
 ## Tutela del progetto
 
@@ -181,7 +222,7 @@ I commit Git costituiscono elementi documentali utili, ma non garantiscono da so
 
 ## Versioni
 
-**Versione corrente: 0.1.3**
+**Versione corrente: 0.1.6**
 
 La numerazione della versione deve rimanere coerente tra:
 

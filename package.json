@@ -1,16 +1,28 @@
 {
   "name": "ilcubo",
-  "version": "0.1.3",
-  "description": "Cubo di Rubik 3D personalizzabile — PWA vanilla JS + Three.js",
+  "version": "0.1.6",
+  "description": "ILCUBO — cubo 3D personalizzabile — PWA vanilla JS + Three.js, app iOS con Capacitor",
   "author": "Alessandro Pezzali (https://www.pezzaliapp.com)",
-  "license": "SEE LICENSE IN deploy/LICENSE",
+  "license": "SEE LICENSE IN docs/LICENSE",
   "private": true,
   "scripts": {
     "build": "bash source/build.sh",
-    "start": "cd deploy && python3 -m http.server 8000"
+    "start": "cd docs && python3 -m http.server 8000",
+    "build:www": "node scripts/build-www.mjs",
+    "ios:sync": "npm run build:www && npx cap sync ios",
+    "ios:open": "npx cap open ios"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.3",
     "javascript-obfuscator": "^5.0.0",
     "terser": "^5.0.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/ios": "^8.5.3",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/status-bar": "^8.0.4"
   }
 }
