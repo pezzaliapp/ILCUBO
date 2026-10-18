@@ -27,6 +27,9 @@ versioning [SemVer](https://semver.org/lang/it/).
   `browserconfig.xml` corretto (percorso e colore).
 
 ### Corretto
+- **Scorrimento dei pannelli su iPhone/iPad**: guida, Personalizza, Sfide e Opzioni non
+  scorrevano col dito perché il motore blocca ogni `touchmove` del documento; ora il blocco
+  non si applica dentro gli elementi scorrevoli (il cubo continua a ruotare come prima).
 - `cube.js`: rimossa una patch finale mai eseguita che all'avvio generava
   `ReferenceError: S is not defined`.
 

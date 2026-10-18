@@ -226,6 +226,31 @@ Licenza d’Uso — ILCUBO PWA
     </div>
   </div>
 
+  <!-- Scorrimento dei pannelli su touch.
+       Il motore del cubo blocca ogni "touchmove" a livello di documento (per ruotare il cubo
+       senza far scorrere la pagina): così però non scorrevano nemmeno la guida e i pannelli.
+       Se il dito si muove dentro un elemento che può scorrere, l'evento non arriva al blocco. -->
+  <style>
+    #helpPanel .help-card, [class*="cz-"], [class*="gm-"], [class*="qol-"] { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  </style>
+  <script>
+    (function () {
+      function scrollableAncestor(el) {
+        while (el && el !== document.body && el.nodeType === 1) {
+          var oy = getComputedStyle(el).overflowY;
+          if ((oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight + 1) return el;
+          el = el.parentElement;
+        }
+        return null;
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.addEventListener('touchmove', function (e) {
+          if (scrollableAncestor(e.target)) e.stopPropagation();
+        }, { passive: true });
+      });
+    })();
+  </script>
+
   <!-- JS: libreria + engine + bundle applicativo protetto -->
   <script src="three.js"></script>
   <script src="cube.js"></script>
